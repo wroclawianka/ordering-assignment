@@ -8,7 +8,7 @@ export class OrderItemsList extends React.Component {
             <div className="title">
                 <h2>Your Order Details</h2>
             </div>
-            <div className="items-list"> 
+            <div className="items-list">
             </div>
         </div>
         )

@@ -1,9 +1,9 @@
 import React from "react";
-import './Order.css'
+import './OrderManagment.css'
 import { OrderItemsList } from "./OrderList/OrderItemsList";
 import { AdditionalProductsList } from "./AdditionalProductsList/AdditionalProductsList";
 
-export class Order extends React.Component {
+export class OrderManagment extends React.Component {
     render() {
         return (
         <div className="order-page container">
