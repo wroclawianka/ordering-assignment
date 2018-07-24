@@ -1,19 +1,9 @@
 export class OrderService {
     apiUrl = "http://localhost:3001";
-    ordersPath = "/api/orders";
-    yourOrderPath = "/api/your-order";
+    ordersPath = this.apiUrl + "/api/orders";
     headers = {
         "Content-Type": "application/json"
     };
-
-    fetchYourOrder() {
-        let options = {
-            method: "GET",
-            headers: this.headers
-        };
-        return fetch(this.apiUrl + this.yourOrderPath, options)
-            .then(response => response.json());
-    }
 
     addToOrders(data) {
         let options = {
