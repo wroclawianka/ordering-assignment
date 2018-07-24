@@ -15,7 +15,13 @@ export class CurrentOrderService {
             headers: this.headers,
         };
         return fetch(url, options)
-            .then(response => response.json());
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 1) {
+                    return data[0]
+                }
+            })
+            .catch(err => err);
     }
 
     objToQueryString(obj) {

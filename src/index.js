@@ -4,10 +4,17 @@ import './index.css';
 import { OrderManagment } from "./app/components/OrderManagment/OrderManagment"
 
 class App extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      customerId : 3 //test value
+    }
+  }
+
     render() {
       return (
         <div>
-          <OrderManagment/>
+          <OrderManagment customerId={this.state.customerId}/>
         </div>
       );
     }
