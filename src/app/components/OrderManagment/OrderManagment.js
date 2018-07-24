@@ -12,15 +12,15 @@ export class OrderManagment extends React.Component {
         this.currentOrderService = new CurrentOrderService();
         this.state = {
             customerId: this.props.customerId,
-            order: ''
+            currentOrder: ''
         }
     }
 
     componentDidMount() {
-        this.fetchCustomerOrder();
+        this.fetchCurrentOrder();
     }
 
-    fetchCustomerOrder() {
+    fetchCurrentOrder() {
         this.currentOrderService.fetchCurrentOrder(this.state.customerId)
         .then(data =>  {
             let items = [];
@@ -29,7 +29,7 @@ export class OrderManagment extends React.Component {
             })
             let total = data.total; 
             this.setState({
-                order : new CurrentOrder(items, total)
+                currentOrder : new CurrentOrder(items, total)
             })
         });
     }
