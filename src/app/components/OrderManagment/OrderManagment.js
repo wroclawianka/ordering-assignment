@@ -1,7 +1,7 @@
 import React from "react";
 import './OrderManagment.css'
-import { OrderItemsList } from "./OrderList/OrderItemsList";
-import { AdditionalProductsList } from "./AdditionalProductsList/AdditionalProductsList";
+import { OrderItemsList } from "./../OrderList/OrderItemsList";
+import { AdditionalProductsList } from "./../AdditionalProductsList/AdditionalProductsList";
 import { CurrentOrderService } from "../../services/CurrentOrderService/CurrentOrderService";
 import { CurrentOrder } from "./Models/CurrentOrder";
 import { Item } from "./Models/Item";
