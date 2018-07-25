@@ -57,6 +57,7 @@ export class OrderManagment extends React.Component {
                             )
                         })}
                     </div>
+                    <div className="total">TOTAL {this.state.total}</div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
                     <AdditionalProductsList/>
