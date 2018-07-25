@@ -1,5 +1,6 @@
 export class CurrentOrder {
-  constructor (items, total) {
+  constructor (customerId, items, total) {
+    this.customerId = customerId
     this.items = items
     this.total = total
   }
