@@ -21,11 +21,8 @@ export class OrderedItem extends React.Component {
     fetchProduct(id) {
         this.productService.fetchProduct(id)
             .then(data => {
-                let price = parseFloat(data.price, 10)
-                let category = parseInt(data.category, 10)
-                let newProduct = new Product(data.id, price, data.description, category)
                 this.setState({
-                    product: new Product(data.id, price, data.description, category)
+                    product: new Product(data.description, data.category)
                 })
             })
     }
