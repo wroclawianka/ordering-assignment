@@ -1,11 +1,16 @@
-div {
-    border: solid 1px black
-}
-
 .order-page > .title {
     padding: 50px 0;
+}
+.order-details {
+    padding: 10px;
+    border: 1px solid rgb(117, 117, 117);
 }
 
 .order-details > .title {
     padding: 30px 0;
+}
+
+.order-details > .total {
+    font-size: 2em;
+    float: right;
 }

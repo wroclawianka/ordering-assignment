@@ -45,7 +45,7 @@ export class OrderManagment extends React.Component {
         return (
         <div className="order-page container">
             <div className="title">
-                <h1>Order Page</h1>
+                <h1>Your Order</h1>
             </div>
             <div className="row">
                 <div className="order-details col col-lg-9 col-md-9 col-xs-9 col-xs-offset-1">
@@ -57,7 +57,7 @@ export class OrderManagment extends React.Component {
                             )
                         })}
                     </div>
-                    <div className="total">TOTAL {this.state.total}</div>
+                    <div className="total">{this.state.total} TOTAL</div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
                     <AdditionalProductsList/>

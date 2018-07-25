@@ -29,15 +29,21 @@ export class OrderedItem extends React.Component {
 
     render() {
         return (
-            <div className="order-details">
-                <div className="product">
-                    <p>Description: {this.state.product.description}</p>
-                    <p>Category: {this.state.product.category}</p>
+            <div className="ordered-item">
+                <div className="item product description">
+                    <h4>{this.state.product.description}</h4>
                 </div>
-                <div className="ordered-item" key={this.state.item.productId}>
-                    <p>Quantity: {this.state.item.quantity}</p>
-                    <p>Unit Price: {this.state.item.unitPrice}</p>
-                    <p>Total: {this.state.item.total}</p>
+                <div className="item product category">
+                    <p>Cat. {this.state.product.category}</p>
+                </div>
+                <div className="item unitPrice">
+                    <p>{this.state.item.unitPrice}</p>
+                </div>
+                <div className="item quantity">
+                    <p>{this.state.item.quantity}</p>
+                </div>
+                <div className="item total">
+                    <p>{this.state.item.total} TOTAL</p>
                 </div>
             </div>
         )
