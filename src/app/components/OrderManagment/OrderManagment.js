@@ -1,9 +1,8 @@
 import React from "react";
 import './OrderManagment.css'
-import { OrderItemsList } from "./../OrderList/OrderItemsList";
+import { OrderedItem } from "./../OrderedItem/OrderedItem";
 import { AdditionalProductsList } from "./../AdditionalProductsList/AdditionalProductsList";
 import { CurrentOrderService } from "../../services/CurrentOrderService/CurrentOrderService";
-import { CurrentOrder } from "./Models/CurrentOrder";
 import { Item } from "./Models/Item";
 
 export class OrderManagment extends React.Component {
@@ -12,7 +11,8 @@ export class OrderManagment extends React.Component {
         this.currentOrderService = new CurrentOrderService();
         this.state = {
             customerId: this.props.customerId,
-            currentOrder: ''
+            items: [],
+            total: 0
         }
     }
 
@@ -23,13 +23,20 @@ export class OrderManagment extends React.Component {
     fetchCurrentOrder() {
         this.currentOrderService.fetchCurrentOrder(this.state.customerId)
         .then(data =>  {
-            let items = [];
+            let orderItems = []
             data.items.forEach(item => {
-                items.push(new Item(item["product-id"], item["quantity"]));
+                let productId = item["product-id"]
+                let quantity = parseInt(item["quantity"], 10)
+                let unitPrice = parseFloat(item["unit-price"], 10)
+                let total = parseFloat(item["total"], 10)
+
+                orderItems.push(new Item(productId, quantity, unitPrice, total));
             })
-            let total = data.total; 
+            let orderTotal = data.total
+            
             this.setState({
-                currentOrder : new CurrentOrder(items, total)
+                items: orderItems,
+                total: orderTotal
             })
         });
     }
@@ -41,8 +48,15 @@ export class OrderManagment extends React.Component {
                 <h1>Order Page</h1>
             </div>
             <div className="row">
-                <div className="col col-lg-9 col-md-9 col-xs-9 col-xs-offset-1">
-                    <OrderItemsList/>
+                <div className="order-details col col-lg-9 col-md-9 col-xs-9 col-xs-offset-1">
+                    <h2>Details</h2>
+                    <div className="items-list">
+                        {this.state.items.map((item) => {
+                            return (
+                                <OrderedItem key={item.productId} item={item}/>
+                            )
+                        })}
+                    </div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
                     <AdditionalProductsList/>

@@ -5,3 +5,7 @@ div {
 .order-page > .title {
     padding: 50px 0;
 }
+
+.order-details > .title {
+    padding: 30px 0;
+}
