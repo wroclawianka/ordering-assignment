@@ -11,7 +11,8 @@ export class OrderedItem extends React.Component {
         this.state = {
             item: this.props.item,
             product: ''
-        }
+        };
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentWillMount() {
@@ -27,8 +28,14 @@ export class OrderedItem extends React.Component {
             })
     }
 
-    changeQuantity(){
-        console.log("changeQuantity");
+    handleChange(event){
+        let newQuantity = parseInt(event.target.value, 10);
+        this.setState(prevState => ({
+                    item: {
+                        ...prevState.item,
+                        quantity: newQuantity
+                    }
+                }));
     }
 
     render() {
@@ -45,7 +52,7 @@ export class OrderedItem extends React.Component {
                     </div>
                     <div className="item quantity">
                         <p className="label">Quantity</p>
-                        <input className="form-control" type="number" name="quantity" value={this.state.item.quantity} onChange={this.changeQuantity}/>
+                        <input className="form-control" type="number" name="quantity" value={this.state.item.quantity} min="1" onChange={this.handleChange}/>
                     </div>
                     <div className="item total">
                         <p className="label">Total</p>
