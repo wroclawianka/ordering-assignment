@@ -1,46 +1,49 @@
 .ordered-item {
-    /* border: solid 1px rgb(117, 117, 117); */
     background: rgb(244, 242, 242);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-template-areas: 
-    "desc desc cat"
-    "price quantity total";
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     margin: 10px 0;
-}
-
-.item {
     padding: 5px;
-}
-
-.description{
-    grid-area: desc;
 }
 
 .description > h4 {
     font-size: 180%;
 }
 
-.category {
-    grid-area: cat;
-    text-align: right;
+.category, .label {
     color:rgb(117, 117, 117);
+    margin-bottom: 0px;
+}
+
+.value {
+    font-size: 1.25em;
+    margin-bottom: 0;
+}
+
+.calculations {
+    display: flex;
 }
 
 .unitPrice {
-    grid-area: price;
-    font-size: 1.5em;
+    flex-grow: 1;
 }
 
 .quantity {
-    grid-area: quantity;
-    font-size: 1.5em;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.quantity input {
+    margin: 0 auto;
+}
+
+.quantity input {
+    width: 80px;
 }
 
 .total {
-    grid-area: total;
-    font-size: 1.5em;
     text-align: right;
+    flex-grow: 1;
 }
 

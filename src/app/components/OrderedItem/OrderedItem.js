@@ -27,23 +27,30 @@ export class OrderedItem extends React.Component {
             })
     }
 
+    changeQuantity(){
+        console.log("changeQuantity");
+    }
+
     render() {
         return (
             <div className="ordered-item">
-                <div className="item product description">
+                <div className="product description">
                     <h4>{this.state.product.description}</h4>
+                    <span className="category">Cat. {this.state.product.category}</span>
                 </div>
-                <div className="item product category">
-                    <p>Cat. {this.state.product.category}</p>
-                </div>
-                <div className="item unitPrice">
-                    <p>{this.state.item.unitPrice}</p>
-                </div>
-                <div className="item quantity">
-                    <p>{this.state.item.quantity}</p>
-                </div>
-                <div className="item total">
-                    <p>{this.state.item.total} TOTAL</p>
+                <div className="calculations">
+                    <div className="item unitPrice">
+                        <p className="label">Price</p>
+                        <p className="value">{this.state.item.unitPrice}</p>
+                    </div>
+                    <div className="item quantity">
+                        <p className="label">Quantity</p>
+                        <input className="form-control" type="number" name="quantity" value={this.state.item.quantity} onChange={this.changeQuantity}/>
+                    </div>
+                    <div className="item total">
+                        <p className="label">Total</p>
+                        <p className="value">{this.state.item.total}</p>
+                    </div>
                 </div>
             </div>
         )
