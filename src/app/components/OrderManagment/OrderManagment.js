@@ -53,6 +53,13 @@ export class OrderManagment extends React.Component {
         })
     }
 
+    onRemovedItem(removedItem) {
+        let itemIndex = this.state.items.findIndex(item => item.productId === removedItem.productId);
+        this.setState( {
+                items : update(this.state.items, {$splice: [[itemIndex, 1]] })
+            })
+    }
+
     render() {
         return (
         <div className="order-page container">
@@ -65,7 +72,7 @@ export class OrderManagment extends React.Component {
                     <div className="items-list">
                         {this.state.items.map((item) => {
                             return (
-                                <OrderedItem key={item.productId} item={item} changedItem={this.onQuantityChanged.bind(this)}/>
+                                <OrderedItem key={item.productId} item={item} changedItem={this.onQuantityChanged.bind(this)} removedItem={this.onRemovedItem.bind(this)}/>
                             )
                         })}
                     </div>

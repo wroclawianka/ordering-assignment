@@ -12,7 +12,8 @@ export class OrderedItem extends React.Component {
             item: this.props.item,
             product: ""
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleQuantityChange = this.handleQuantityChange.bind(this);
+        this.handleRemoveItem = this.handleRemoveItem.bind(this);
     }
 
     componentWillMount() {
@@ -46,12 +47,16 @@ export class OrderedItem extends React.Component {
             })
     }
 
-    handleChange(event){
+    handleQuantityChange(event){
         let newQuantity = parseInt(event.target.value, 10);
         this.props.changedItem({
             ...this.state.item,
             quantity: newQuantity
         });
+    }
+
+    handleRemoveItem(){
+        this.props.removedItem(this.state.item)
     }
 
     render() {
@@ -68,11 +73,16 @@ export class OrderedItem extends React.Component {
                     </div>
                     <div className="item quantity">
                         <p className="label">Quantity</p>
-                        <input className="form-control" type="number" name="quantity" value={this.state.item.quantity} min="1" onChange={this.handleChange}/>
+                        <input className="form-control" type="number" name="quantity" value={this.state.item.quantity} min="1" onChange={this.handleQuantityChange}/>
                     </div>
                     <div className="item total">
                         <p className="label">Total</p>
                         <p className="value">{this.state.item.total}</p>
+                    </div>
+                    <div className="trash">
+                        <p className="trash-icon">
+                        <i className="far fa-trash-alt" onClick={this.handleRemoveItem}></i>
+                        </p>
                     </div>
                 </div>
             </div>
