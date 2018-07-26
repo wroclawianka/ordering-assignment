@@ -10,13 +10,31 @@ export class OrderedItem extends React.Component {
         this.productService = new ProductService();
         this.state = {
             item: this.props.item,
-            product: ''
+            product: ""
         };
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentWillMount() {
         this.fetchProduct(this.state.item.productId)
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            item: nextProps.item
+        })
+    }
+
+    shouldComponentUpdate(nextProps){
+        return (!this.isProductEmpty() && this.isItemChanged(nextProps))? false : true;
+    }
+
+    isProductEmpty(){
+        return this.state.product === "";
+    }
+
+    isItemChanged(nextProps){
+        return this.state.item === nextProps.item;
     }
 
     fetchProduct(id) {
@@ -30,12 +48,10 @@ export class OrderedItem extends React.Component {
 
     handleChange(event){
         let newQuantity = parseInt(event.target.value, 10);
-        this.setState(prevState => ({
-                    item: {
-                        ...prevState.item,
-                        quantity: newQuantity
-                    }
-                }));
+        this.props.changedItem({
+            ...this.state.item,
+            quantity: newQuantity
+        });
     }
 
     render() {

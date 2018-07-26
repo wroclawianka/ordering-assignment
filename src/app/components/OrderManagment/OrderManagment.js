@@ -1,4 +1,5 @@
 import React from "react";
+import update from 'immutability-helper';
 import './OrderManagment.css'
 import { OrderedItem } from "./../OrderedItem/OrderedItem";
 import { AdditionalProductsList } from "./../AdditionalProductsList/AdditionalProductsList";
@@ -41,6 +42,17 @@ export class OrderManagment extends React.Component {
         });
     }
     
+    onQuantityChanged(changedItem) {
+        let itemIndex = this.state.items.findIndex(item => item.productId === changedItem.productId);
+        this.setState({
+            items : update(this.state.items, 
+                {[itemIndex]: 
+                    { quantity: 
+                        {$set : changedItem.quantity}
+                    }})
+        })
+    }
+
     render() {
         return (
         <div className="order-page container">
@@ -53,7 +65,7 @@ export class OrderManagment extends React.Component {
                     <div className="items-list">
                         {this.state.items.map((item) => {
                             return (
-                                <OrderedItem key={item.productId} item={item}/>
+                                <OrderedItem key={item.productId} item={item} changedItem={this.onQuantityChanged.bind(this)}/>
                             )
                         })}
                     </div>
