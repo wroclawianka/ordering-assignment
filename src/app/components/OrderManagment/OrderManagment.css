@@ -4,6 +4,8 @@
 .order-details {
     padding: 10px;
     border: 1px solid rgb(117, 117, 117);
+    display: flex;
+    flex-direction: column;
 }
 
 .order-details > .title {
@@ -11,6 +13,15 @@
 }
 
 .order-details > .total {
-    font-size: 2em;
+    font-size: 1.6em;
     float: right;
+}
+
+.place-order {
+    text-align: center;
+}
+
+.place-order > button {
+    width: 200px;
+    font-size: 150%;
 }
