@@ -10,11 +10,18 @@ export class OrderManagment extends React.Component {
     constructor(props) {
         super(props);
         this.currentOrderService = new CurrentOrderService();
+        this.statuses = {
+            onClientSide : "On the client's side",
+            success : "Successful ordered", 
+            failure : "Failure, check your order"
+        }
         this.state = {
             customerId: this.props.customerId,
             items: [],
-            total: 0
+            total: 0,
+            orderStatus: ''
         }
+        this.showOrderStatus = this.showOrderStatus.bind(this);
     }
 
     componentDidMount() {
@@ -37,7 +44,8 @@ export class OrderManagment extends React.Component {
             
             this.setState({
                 items: orderItems,
-                total: orderTotal
+                total: orderTotal,
+                orderStatus: this.statuses.onClientSide
             })
         });
     }
@@ -60,6 +68,24 @@ export class OrderManagment extends React.Component {
             })
     }
 
+    checkOrderStatus() {
+        if(!this.ifOrderIsEmpty()) {
+            return this.statuses.success;
+        } else {
+            return this.statuses.failure;
+        }
+    }
+
+    ifOrderIsEmpty(){
+        return this.state.items.length <= 0
+    }
+
+    showOrderStatus(){
+        this.setState({
+            orderStatus: this.checkOrderStatus()
+        })
+    }
+
     render() {
         return (
         <div className="order-page container">
@@ -69,6 +95,9 @@ export class OrderManagment extends React.Component {
             <div className="row">
                 <div className="order-details col col-lg-9 col-md-9 col-xs-9 col-xs-offset-1">
                     <h2>Details</h2>
+                    <div className="status">
+                        <p>Status: {this.state.orderStatus}</p> 
+                    </div>
                     <div className="items-list">
                         {this.state.items.map((item) => {
                             return (
@@ -78,7 +107,7 @@ export class OrderManagment extends React.Component {
                     </div>
                     <div className="total">{this.state.total} TOTAL</div>
                     <div className="place-order">
-                        <button type="button" className="btn btn-primary">Place an order</button>
+                        <button type="button" className="btn btn-primary" onClick={this.showOrderStatus}>Place an order</button>
                     </div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
