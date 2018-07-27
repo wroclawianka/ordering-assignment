@@ -83,10 +83,6 @@ export class OrderManagment extends React.Component {
         }
     }
 
-    // ifOrderIsEmpty(){
-    //     return this.state.currentOrder.items.length <= 0
-    // }
-
     showOrderStatus(id){
         this.setState({
             orderStatus: this.checkOrderStatus(id)
@@ -99,6 +95,8 @@ export class OrderManagment extends React.Component {
     }
 
     render() {
+        const isBtnEnabled = (this.state.currentOrder.items.length > 0) && (this.state.orderStatus !== this.statuses.success);
+        
         return (
         <div className="order-page container">
             <div className="title">
@@ -119,7 +117,7 @@ export class OrderManagment extends React.Component {
                     </div>
                     <div className="total">{this.state.currentOrder.total} TOTAL</div>
                     <div className="place-order">
-                        <button type="button" className="btn btn-primary" onClick={this.placeAnOrder}>Place an order</button>
+                        <button type="button" className="btn btn-primary" onClick={this.placeAnOrder} disabled={!isBtnEnabled}>Place an order</button>
                     </div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
