@@ -5,23 +5,23 @@ import { OrderedItem } from "./../OrderedItem/OrderedItem";
 import { AdditionalProductsList } from "./../AdditionalProductsList/AdditionalProductsList";
 import { CurrentOrderService } from "../../services/CurrentOrderService/CurrentOrderService";
 import { Item } from "./Models/Item";
+import { CurrentOrder } from "./Models/CurrentOrder";
 
 export class OrderManagment extends React.Component {
     constructor(props) {
         super(props);
         this.currentOrderService = new CurrentOrderService();
         this.statuses = {
-            onClientSide : "On the client's side",
-            success : "Successful ordered", 
-            failure : "Failure, check your order"
+            onClientSide : "Order on the client's side",
+            success : "Success. You order is already in progress", 
+            failure : "Failure. Please, check your order"
         }
         this.state = {
-            customerId: this.props.customerId,
-            items: [],
-            total: 0,
-            orderStatus: ''
+            currentOrder: new CurrentOrder(this.props.customerId, [], 0),
+            orderStatus: '',
         }
         this.showOrderStatus = this.showOrderStatus.bind(this);
+        this.placeAnOrder = this.placeAnOrder.bind(this);
     }
 
     componentDidMount() {
@@ -29,7 +29,7 @@ export class OrderManagment extends React.Component {
     }
 
     fetchCurrentOrder() {
-        this.currentOrderService.fetchCurrentOrder(this.state.customerId)
+        this.currentOrderService.fetchCurrentOrder(this.state.currentOrder.customerId)
         .then(data =>  {
             let orderItems = []
             data.items.forEach(item => {
@@ -42,29 +42,34 @@ export class OrderManagment extends React.Component {
             })
             let orderTotal = data.total
             
-            this.setState({
-                items: orderItems,
-                total: orderTotal,
-                orderStatus: this.statuses.onClientSide
+
+            this.setState((prevState) => {
+                return { 
+                    currentOrder: {
+                        customerId: prevState.currentOrder.customerId,
+                        items: orderItems,
+                        total: orderTotal
+                    },
+                    orderStatus: this.statuses.onClientSide}
             })
         });
     }
     
     onQuantityChanged(changedItem) {
-        let itemIndex = this.state.items.findIndex(item => item.productId === changedItem.productId);
+        let itemIndex = this.state.currentOrder.items.findIndex(item => item.productId === changedItem.productId);
         this.setState({
-            items : update(this.state.items, 
-                {[itemIndex]: 
+            currentOrder : update(this.state.currentOrder, 
+                {items: {[itemIndex]: 
                     { quantity: 
                         {$set : changedItem.quantity}
-                    }})
+                    }}})
         })
     }
 
     onRemovedItem(removedItem) {
-        let itemIndex = this.state.items.findIndex(item => item.productId === removedItem.productId);
+        let itemIndex = this.state.currentOrder.items.findIndex(item => item.productId === removedItem.productId);
         this.setState( {
-                items : update(this.state.items, {$splice: [[itemIndex, 1]] })
+                currentOrder : update(this.state.currentOrder, {items: {$splice: [[itemIndex, 1]] }})
             })
     }
 
@@ -77,13 +82,18 @@ export class OrderManagment extends React.Component {
     }
 
     ifOrderIsEmpty(){
-        return this.state.items.length <= 0
+        return this.state.currentOrder.items.length <= 0
     }
 
     showOrderStatus(){
         this.setState({
             orderStatus: this.checkOrderStatus()
         })
+    }
+
+    placeAnOrder(){
+        this.showOrderStatus();
+        console.log(this.state.currentOrder);
     }
 
     render() {
@@ -95,19 +105,19 @@ export class OrderManagment extends React.Component {
             <div className="row">
                 <div className="order-details col col-lg-9 col-md-9 col-xs-9 col-xs-offset-1">
                     <h2>Details</h2>
-                    <div className="status">
-                        <p>Status: {this.state.orderStatus}</p> 
-                    </div>
                     <div className="items-list">
-                        {this.state.items.map((item) => {
+                        {this.state.currentOrder.items.map((item) => {
                             return (
                                 <OrderedItem key={item.productId} item={item} changedItem={this.onQuantityChanged.bind(this)} removedItem={this.onRemovedItem.bind(this)}/>
                             )
                         })}
                     </div>
-                    <div className="total">{this.state.total} TOTAL</div>
+                    <div className="status">
+                        <p><b>Status:</b> {this.state.orderStatus}</p> 
+                    </div>
+                    <div className="total">{this.state.currentOrder.total} TOTAL</div>
                     <div className="place-order">
-                        <button type="button" className="btn btn-primary" onClick={this.showOrderStatus}>Place an order</button>
+                        <button type="button" className="btn btn-primary" onClick={this.placeAnOrder}>Place an order</button>
                     </div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
