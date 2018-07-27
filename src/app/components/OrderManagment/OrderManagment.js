@@ -4,6 +4,7 @@ import './OrderManagment.css'
 import { OrderedItem } from "./../OrderedItem/OrderedItem";
 import { AdditionalProductsList } from "./../AdditionalProductsList/AdditionalProductsList";
 import { CurrentOrderService } from "../../services/CurrentOrderService/CurrentOrderService";
+import { OrderService } from "../../services/OrderService/OrderService";
 import { Item } from "./Models/Item";
 import { CurrentOrder } from "./Models/CurrentOrder";
 
@@ -11,6 +12,7 @@ export class OrderManagment extends React.Component {
     constructor(props) {
         super(props);
         this.currentOrderService = new CurrentOrderService();
+        this.orderService = new OrderService();
         this.statuses = {
             onClientSide : "Order on the client's side",
             success : "Success. You order is already in progress", 
@@ -73,27 +75,27 @@ export class OrderManagment extends React.Component {
             })
     }
 
-    checkOrderStatus() {
-        if(!this.ifOrderIsEmpty()) {
+    checkOrderStatus(id) {
+        if(id) {
             return this.statuses.success;
         } else {
             return this.statuses.failure;
         }
     }
 
-    ifOrderIsEmpty(){
-        return this.state.currentOrder.items.length <= 0
-    }
+    // ifOrderIsEmpty(){
+    //     return this.state.currentOrder.items.length <= 0
+    // }
 
-    showOrderStatus(){
+    showOrderStatus(id){
         this.setState({
-            orderStatus: this.checkOrderStatus()
+            orderStatus: this.checkOrderStatus(id)
         })
     }
 
     placeAnOrder(){
-        this.showOrderStatus();
-        console.log(this.state.currentOrder);
+        this.orderService.addToOrders(this.state.currentOrder)
+        .then(data => this.showOrderStatus(data.id));
     }
 
     render() {
