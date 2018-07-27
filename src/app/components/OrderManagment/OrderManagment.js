@@ -76,11 +76,7 @@ export class OrderManagment extends React.Component {
     }
 
     checkOrderStatus(id) {
-        if(id) {
-            return this.statuses.success;
-        } else {
-            return this.statuses.failure;
-        }
+        return (id) ? this.statuses.success : this.statuses.failure;
     }
 
     showOrderStatus(id){
@@ -94,8 +90,16 @@ export class OrderManagment extends React.Component {
         .then(data => this.showOrderStatus(data.id));
     }
 
+    isOrderEmpty() {
+        return this.state.currentOrder.items.length <= 0;
+    }
+
+    isOrderProcessed() {
+        return this.state.orderStatus === this.statuses.success;
+    }
+
     render() {
-        const isBtnEnabled = (this.state.currentOrder.items.length > 0) && (this.state.orderStatus !== this.statuses.success);
+        const isBtnDisabled = (this.isOrderEmpty()) || (this.isOrderProcessed());
         
         return (
         <div className="order-page container">
@@ -117,7 +121,7 @@ export class OrderManagment extends React.Component {
                     </div>
                     <div className="total">{this.state.currentOrder.total} TOTAL</div>
                     <div className="place-order">
-                        <button type="button" className="btn btn-primary" onClick={this.placeAnOrder} disabled={!isBtnEnabled}>Place an order</button>
+                        <button type="button" className="btn btn-primary" onClick={this.placeAnOrder} disabled={isBtnDisabled}>Place an order</button>
                     </div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
