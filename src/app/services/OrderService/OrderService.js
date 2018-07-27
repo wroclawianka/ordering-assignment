@@ -11,7 +11,7 @@ export class OrderService {
             body: JSON.stringify(data),
             headers: this.headers
         };
-        return fetch(this.apiUrl + this.ordersPath, options)
+        return fetch(this.ordersPath, options)
             .then(response => response.json())
             .catch(err => err);
     }
