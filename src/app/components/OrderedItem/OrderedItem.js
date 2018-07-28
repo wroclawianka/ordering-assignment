@@ -12,7 +12,7 @@ export class OrderedItem extends React.Component {
             item: this.props.item,
             product: ""
         };
-        this.handleQuantityChange = this.handleQuantityChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleRemoveItem = this.handleRemoveItem.bind(this);
     }
 
@@ -30,33 +30,35 @@ export class OrderedItem extends React.Component {
         return (!this.isProductEmpty() && !this.isItemChanged(nextProps))? false : true;
     }
 
+    fetchProduct(id) {
+        this.productService.fetchProduct(id)
+        .then(data => {
+            this.setState({
+                product: new Product(data.description, data.category)
+            })
+        })
+    }
+    
+    handleChange(event){
+        let quantity = parseInt(event.target.value, 10);
+        let total = this.state.item.unitPrice * quantity;
+        this.props.changedItem({
+            ...this.state.item,
+            quantity: quantity,
+            total: total
+        });
+    }
+    
+    handleRemoveItem(){
+        this.props.removedItem(this.state.item)
+    }
+    
     isProductEmpty(){
         return this.state.product === "";
     }
 
     isItemChanged(nextProps){
         return this.state.item !== nextProps.item;
-    }
-
-    fetchProduct(id) {
-        this.productService.fetchProduct(id)
-            .then(data => {
-                this.setState({
-                    product: new Product(data.description, data.category)
-                })
-            })
-    }
-
-    handleQuantityChange(event){
-        let newQuantity = parseInt(event.target.value, 10);
-        this.props.changedItem({
-            ...this.state.item,
-            quantity: newQuantity
-        });
-    }
-
-    handleRemoveItem(){
-        this.props.removedItem(this.state.item)
     }
 
     render() {
@@ -73,7 +75,7 @@ export class OrderedItem extends React.Component {
                     </div>
                     <div className="item quantity">
                         <p className="label">Quantity</p>
-                        <input className="form-control" type="number" name="quantity" value={this.state.item.quantity} min="1" onChange={this.handleQuantityChange}/>
+                        <input className="form-control" type="number" name="quantity" value={this.state.item.quantity} min="1" onChange={this.handleChange}/>
                     </div>
                     <div className="item total">
                         <p className="label">Total</p>
