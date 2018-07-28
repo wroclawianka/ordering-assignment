@@ -70,8 +70,11 @@ export class OrderManagment extends React.Component {
     onRemovedItem(removedItem) {
         let prevOrder = this.state.currentOrder;
         let itemIndex = this.findItemIndex(prevOrder.items, removedItem.productId);
+        let order = this.removeItem(prevOrder, itemIndex);
+        let total = this.recalculateTotal(order);
+        order = this.updateTotal(order, total)
         this.setState({
-            currentOrder : this.removeItem(prevOrder, itemIndex)
+            currentOrder : order
         })
     }
     
@@ -126,7 +129,7 @@ export class OrderManagment extends React.Component {
     }
 
     render() {
-        const isBtnDisabled = this.isOrderProcessed();
+        const isBtnDisabled = this.isOrderEmpty() || this.isOrderProcessed();
         
         return (
         <div className="order-page container">
