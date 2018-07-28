@@ -27,7 +27,7 @@ export class OrderedItem extends React.Component {
     }
 
     shouldComponentUpdate(nextProps){
-        return (!this.isProductEmpty() && this.isItemChanged(nextProps))? false : true;
+        return (!this.isProductEmpty() && !this.isItemChanged(nextProps))? false : true;
     }
 
     isProductEmpty(){
@@ -35,7 +35,7 @@ export class OrderedItem extends React.Component {
     }
 
     isItemChanged(nextProps){
-        return this.state.item === nextProps.item;
+        return this.state.item !== nextProps.item;
     }
 
     fetchProduct(id) {
