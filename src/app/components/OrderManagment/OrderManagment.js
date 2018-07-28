@@ -58,23 +58,56 @@ export class OrderManagment extends React.Component {
     }
     
     onQuantityChanged(changedItem) {
-        let itemIndex = this.state.currentOrder.items.findIndex(item => item.productId === changedItem.productId);
+        let prevOrder = this.state.currentOrder
+        let itemIndex = this.findItemIndex(prevOrder.items, changedItem.productId);
+        let order = this.updateItem(prevOrder, itemIndex, changedItem);
+        let total = this.recalculateTotal(order);
+        order = this.updateTotal(order, total)
         this.setState({
-            currentOrder : update(this.state.currentOrder, 
-                {items: {[itemIndex]: 
-                    { quantity: 
-                        {$set : changedItem.quantity}
-                    }}})
-        })
+            currentOrder : order
+        });
     }
 
     onRemovedItem(removedItem) {
-        let itemIndex = this.state.currentOrder.items.findIndex(item => item.productId === removedItem.productId);
-        this.setState( {
-                currentOrder : update(this.state.currentOrder, {items: {$splice: [[itemIndex, 1]] }})
-            })
+        let prevOrder = this.state.currentOrder;
+        let itemIndex = this.findItemIndex(prevOrder.items, removedItem.productId);
+        this.setState({
+            currentOrder : this.removeItem(prevOrder, itemIndex)
+        })
+    }
+    
+    placeAnOrder(){
+        this.orderService.addToOrders(this.state.currentOrder)
+        .then(data => this.showOrderStatus(data.id));
     }
 
+    // item methods
+    findItemIndex(items, id){
+        return items.findIndex(item => item.productId === id);
+    }
+    
+    updateItem(order, index, value){
+        return update(order, {items: {[index]: {$set: value}}})
+    }
+
+    removeItem(order, index){
+        return update(order, {items: {$splice: [[index, 1]] }})
+    }
+
+    // total methods
+    updateTotal(order, value){
+        return  update(order, {total: {$set: value}})
+    }
+
+    recalculateTotal(order){
+        let total = 0;
+        order.items.forEach(item => {
+            total += item.total;
+        })
+        return total;     
+    }
+
+    // order status methods
     checkOrderStatus(id) {
         return (id) ? this.statuses.success : this.statuses.failure;
     }
@@ -83,11 +116,6 @@ export class OrderManagment extends React.Component {
         this.setState({
             orderStatus: this.checkOrderStatus(id)
         })
-    }
-
-    placeAnOrder(){
-        this.orderService.addToOrders(this.state.currentOrder)
-        .then(data => this.showOrderStatus(data.id));
     }
 
     isOrderEmpty() {
