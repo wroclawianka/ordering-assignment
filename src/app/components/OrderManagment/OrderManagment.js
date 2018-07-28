@@ -24,6 +24,8 @@ export class OrderManagment extends React.Component {
         }
         this.showOrderStatus = this.showOrderStatus.bind(this);
         this.placeAnOrder = this.placeAnOrder.bind(this);
+        this.onQuantityChanged = this.onQuantityChanged.bind(this);
+        this.onRemovedItem = this.onRemovedItem.bind(this);
     }
 
     componentDidMount() {
@@ -39,12 +41,9 @@ export class OrderManagment extends React.Component {
                 let quantity = parseInt(item["quantity"], 10)
                 let unitPrice = parseFloat(item["unit-price"], 10)
                 let total = parseFloat(item["total"], 10)
-
                 orderItems.push(new Item(productId, quantity, unitPrice, total));
             })
             let orderTotal = data.total
-            
-
             this.setState((prevState) => {
                 return { 
                     currentOrder: {
@@ -127,7 +126,7 @@ export class OrderManagment extends React.Component {
     }
 
     render() {
-        const isBtnDisabled = (this.isOrderEmpty()) || (this.isOrderProcessed());
+        const isBtnDisabled = this.isOrderProcessed();
         
         return (
         <div className="order-page container">
@@ -140,7 +139,7 @@ export class OrderManagment extends React.Component {
                     <div className="items-list">
                         {this.state.currentOrder.items.map((item) => {
                             return (
-                                <OrderedItem key={item.productId} item={item} changedItem={this.onQuantityChanged.bind(this)} removedItem={this.onRemovedItem.bind(this)}/>
+                                <OrderedItem key={item.productId} item={item} changedItem={this.onQuantityChanged} removedItem={this.onRemovedItem}/>
                             )
                         })}
                     </div>
