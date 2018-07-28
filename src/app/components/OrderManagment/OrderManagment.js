@@ -83,7 +83,7 @@ export class OrderManagment extends React.Component {
         let prevOrder = this.state.currentOrder;
         let index = prevOrder.items.findIndex(item => (item.productId === newItem.productId))
         if(index === -1){
-            this. addNewItem(prevOrder, newItem);
+            this.addNewItem(prevOrder, newItem);
         }
         else{
             this.increaseQuantity(prevOrder, index, newItem);
