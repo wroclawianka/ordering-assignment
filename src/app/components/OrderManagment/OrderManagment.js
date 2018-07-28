@@ -26,6 +26,7 @@ export class OrderManagment extends React.Component {
         this.placeAnOrder = this.placeAnOrder.bind(this);
         this.onQuantityChanged = this.onQuantityChanged.bind(this);
         this.onRemovedItem = this.onRemovedItem.bind(this);
+        this.onAddItem =  this.onAddItem.bind(this);
     }
 
     componentDidMount() {
@@ -76,6 +77,41 @@ export class OrderManagment extends React.Component {
         this.setState({
             currentOrder : order
         })
+    }
+
+    onAddItem(newItem) {
+        let prevOrder = this.state.currentOrder;
+        let index = prevOrder.items.findIndex(item => (item.productId === newItem.productId))
+        if(index === -1){
+            this. addNewItem(prevOrder, newItem);
+        }
+        else{
+            this.increaseQuantity(prevOrder, index, newItem);
+        }
+    }
+
+    addNewItem(prevOrder, item){
+        let order = update(prevOrder, {items: {$push: [item]}})
+        let total = this.recalculateTotal(order);
+        order = this.updateTotal(order, total);
+        this.setState({
+                currentOrder: order
+            })
+    }
+
+    increaseQuantity(prevOrder, index, newItem){
+        let item = prevOrder.items[index];
+            item = {
+                ...item, 
+                quantity: item.quantity + newItem.quantity,
+                total: item.total + newItem.total,
+            }
+            let order = this.updateItem(prevOrder, index, item);
+            let total = this.recalculateTotal(order);
+            order = this.updateTotal(order, total);
+            this.setState({
+                currentOrder: order
+            })
     }
     
     placeAnOrder(){
@@ -155,7 +191,7 @@ export class OrderManagment extends React.Component {
                     </div>
                 </div>
                 <div className="col col-lg-3 col-md-3 col-xs-3 col-xs-offset-1">
-                    <AdditionalProductsList/>
+                    <AdditionalProductsList item={this.onAddItem}/>
                 </div>
             </div>
         </div>
