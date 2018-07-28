@@ -15,4 +15,14 @@ export class ProductService {
             .then(response => response.json())
             .catch(err => err);
     }
+
+    fetchProducts() {
+        const options = {
+            method: "GET",
+            headers: this.headers,
+        };
+        return fetch(this.productsPath, options)
+            .then(response => response.json())
+            .catch(err => err);
+    }
 }
