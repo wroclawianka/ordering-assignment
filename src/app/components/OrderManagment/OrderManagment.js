@@ -40,8 +40,8 @@ export class OrderManagment extends React.Component {
             data.items.forEach(item => {
                 let productId = item["product-id"]
                 let quantity = parseInt(item["quantity"], 10)
-                let unitPrice = parseFloat(item["unit-price"], 10)
-                let total = parseFloat(item["total"], 10)
+                let unitPrice = parseFloat(item["unit-price"], 10).toFixed(2)
+                let total = parseFloat(item["total"], 10).toFixed(2)
                 orderItems.push(new Item(productId, quantity, unitPrice, total));
             })
             let orderTotal = data.total
