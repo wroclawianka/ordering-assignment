@@ -22,7 +22,7 @@ export class AdditionalProductsList extends React.Component {
         .then(data => {
             let products = []
             data.forEach(product => {
-                let price = parseFloat(product.price, 10).toFixed(2)
+                let price = parseFloat(product.price, 10)
                 products.push(new Product(product.id, product.description, product.category, price))
             })
             this.setState({
