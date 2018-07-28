@@ -1,0 +1,15 @@
+.additional-product{
+    display: flex;
+    padding: 10px 0;
+}
+
+.additional-product > .product-description {
+    flex-grow: 1;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.additional-product > .product-price {
+    flex-grow: auto;
+    text-align: right;
+}

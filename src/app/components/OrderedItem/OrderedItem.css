@@ -1,0 +1,60 @@
+.ordered-item {
+    background: rgb(244, 242, 242);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    margin: 10px 0;
+    padding: 5px;
+}
+
+.description > h4 {
+    font-size: 180%;
+}
+
+.category, .label {
+    color:rgb(117, 117, 117);
+    margin-bottom: 0px;
+}
+
+.value {
+    font-size: 1.25em;
+    margin-bottom: 0;
+}
+
+.calculations {
+    display: flex;
+}
+
+.unitPrice {
+    flex-grow: 1;
+}
+
+.quantity {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.quantity input {
+    margin: 0 auto;
+}
+
+.quantity input {
+    width: 80px;
+}
+
+.total {
+    text-align: right;
+    flex-grow: 1;
+}
+
+.trash {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.trash-icon {
+    margin: auto;
+    color:rgb(117, 117, 117);
+    cursor: pointer;
+}

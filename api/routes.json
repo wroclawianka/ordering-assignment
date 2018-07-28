@@ -1,0 +1,8 @@
+{
+    "/api/current-orders": "/current-orders",
+    "/api/current-orders\\?customer-id=:customerId": "/current-orders?customer-id=:customerId",
+    "/api/orders": "/orders",
+    "/api/orders/:id": "/orders/:id",
+    "/api/products": "/products",
+    "/api/products/:id": "/products/:id"
+  }
