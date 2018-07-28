@@ -4,7 +4,7 @@ Simple ReactJS ordering application. The application includes all details of you
 To mock REST API was used [JSON Server](https://github.com/typicode/json-server).
 
    <p align="center">
-      <img width="500px" src="https://raw.githubusercontent.com/wroclawianka/ordering-assignment/master/ordering-app.png"/>
+      <img width="500px" src="https://raw.githubusercontent.com/wroclawianka/ordering-assignment/master/ordering-assignment.png"/>
    </p>
 
 ## Getting started
