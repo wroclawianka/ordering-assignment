@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wroclawianka/ordering-assignment/master/react.png" height="150px"/>
+</p>
+
 # Ordering Assignment
 Simple ReactJS ordering application. The application includes all details of your order. You may add additional product to the list, change the quantity or remove the product. When you place an order you can see confirmation of the order. 
 
